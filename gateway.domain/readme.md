@@ -1,0 +1,1 @@
+﻿> If we separate (in a DLL in this case) the logic related to the business domain, we can easily reused it in a future if we needed. Here we can put models / entities logic, utilities and common functions. That's the intention with _gateway.domain_ DLL
