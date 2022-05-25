@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace gateway.domain.Models
+using gateway.domain.Entities;
+
+namespace gateway.domain.Entities
 {
-    public class Peripheral
+    public class Peripheral : EntityD
     {
-        public int Id { get; set; }
-        
         /// <summary>UID device identifier</summary> 
         public Guid Uid { get; set; }
         
@@ -20,8 +20,5 @@ namespace gateway.domain.Models
 
         /// <summary>Gateway that owns the peripheral</summary>
         public Gateway Gateway { get; set; }
-        
-        /// <summary>Creation date</summary>
-        public DateTime Created { get; set; }
     }
 }

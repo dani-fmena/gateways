@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using gateway.domain.Models;
+using gateway.domain.Entities;
 
 namespace gateway.dal
 {

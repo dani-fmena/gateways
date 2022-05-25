@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using gateway.api.V1.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace gateway.api.Bootstrap
@@ -15,9 +16,7 @@ namespace gateway.api.Bootstrap
         /// <param name="services">Service collection instance</param>
         public static void AddBusinessLogic(this IServiceCollection services)
         {
-            // services.AddTransient<ISvcActor, SvcActor>();
-            // services.AddTransient<ISvcCatalog, SvcCatalog>();
-            // services.AddTransient<ISvcConfiguration, SvcConfiguration>();
+            services.AddTransient<ISvcGateway, SvcGateway>();
         }
     }
 }

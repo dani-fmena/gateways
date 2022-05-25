@@ -22,7 +22,7 @@ namespace gateway.api.Bootstrap
             services.AddDbContext<ADbContext>(options =>
                 options
                     .EnableSensitiveDataLogging()
-                    .UseSqlServer(conf.GetConnectionString("Gateway")));
+                    .UseSqlServer(conf.GetConnectionString("Local")));
         }
     }
 }

@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace gateway.domain.Models
+
+namespace gateway.domain.Entities
 {
     /// <summary>Gateway <b>entity</b> to control 10 peripheral devices</summary>
-    public class Gateway
+    public class Gateway : Entity
     {
-        
-        public int Id { get; set; }
-
         /// <summary>Human-readable name</summary>
         [Required, Column(TypeName = "NVARCHAR(36)")]
         public string Name { get; set; }
@@ -29,8 +27,8 @@ namespace gateway.domain.Models
         [NotMapped]
         public IPAddress IpAddress
         {
-            get => new IPAddress(IpAddressBytes);
-            set => IpAddressBytes = value.GetAddressBytes();
+            get => IpAddressBytes != null ? new IPAddress(IpAddressBytes) : null;
+            set => IpAddressBytes = value != null ? value.GetAddressBytes() : new byte[] { };
         }
     }
 }

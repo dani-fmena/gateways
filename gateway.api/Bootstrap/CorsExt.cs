@@ -14,10 +14,8 @@ namespace gateway.api.Bootstrap
         public static void AddCorsDevPolicy(this IServiceCollection services)
         {
             // CORS service registration.
-            // Right now it is plain simple cors policy for 
-            // a development server. If this policies grows bigger
-            // then maybe it should be parametrized, or get a list
-            // of hosts from a config file
+            // Right now it is plain simple cors policy for a development server. If this policies grows bigger
+            // then maybe it should be parametrized, or get a list of hosts from a config file
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "CORS-Policy", builder =>

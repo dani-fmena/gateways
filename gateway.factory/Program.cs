@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Bogus;
 
 using gateway.dal;
-using gateway.domain.Models;
+using gateway.domain.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 

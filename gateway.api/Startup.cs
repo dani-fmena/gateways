@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 
 using gateway.api.Bootstrap;
+using gateway.api.V1.Mapping;
 
 namespace gateway.api
 {
@@ -26,7 +27,7 @@ namespace gateway.api
         {
             services.AddCorsDevPolicy();
             services.AddControllers();
-            // services.AddAutoMapper(typeof(Mapping));
+            services.AddAutoMapper(typeof(Mapping));
             services.AddDataAccess(_conf);
             services.AddBusinessLogic();
             services.AddApiDocumentation();

@@ -68,17 +68,17 @@ namespace gateway.api.Bootstrap
                 return new[] { "" };
             });
             
-            // Include XML comments file (kernel assembly) for the Swagger JSON and UI.
+            // Include XML comments file (api assembly) for the Swagger JSON and UI.
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPathKernel = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            var xmlPathApi = Path.Combine(AppContext.BaseDirectory, xmlFile);
             
-            // Include XML comments file (cosmos assembly) for the Swagger JSON and UI.
+            // Include XML comments file (domain assembly) for the Swagger JSON and UI.
             var tPath = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => a.FullName != null && a.FullName.Contains("gateway.domain"))
                 .ToArray()[0]
                 .Location
                 .Replace("gateway.domain.dll", "");
-            var xmlPathCosmos = Path.Combine(tPath, "gateway.domain.xml");
+            var xmlPathDomain = Path.Combine(tPath, "gateway.domain.xml");
             
             foreach (var description in _provider.ApiVersionDescriptions)
             {
@@ -105,8 +105,8 @@ namespace gateway.api.Bootstrap
                 });
                 
                 // Enabling XML comments for extended OpenApi information
-                options.IncludeXmlComments(xmlPathKernel);
-                options.IncludeXmlComments(xmlPathCosmos);
+                options.IncludeXmlComments(xmlPathApi);
+                options.IncludeXmlComments(xmlPathDomain);
             }
         }
 
