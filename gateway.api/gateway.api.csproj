@@ -2,10 +2,25 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>gateway.api</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\gateway.dal\gateway.dal.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.25" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.1" />
     </ItemGroup>
 
 
