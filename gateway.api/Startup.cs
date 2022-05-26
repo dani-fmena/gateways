@@ -8,6 +8,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 
+using Newtonsoft.Json;
+
 using gateway.api.Bootstrap;
 using gateway.api.V1.Mapping;
 
@@ -27,6 +29,11 @@ namespace gateway.api
         {
             services.AddCorsDevPolicy();
             services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            });
             services.AddAutoMapper(typeof(Mapping));
             services.AddDataAccess(_conf);
             services.AddBusinessLogic();

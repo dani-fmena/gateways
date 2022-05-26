@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,18 +16,11 @@ namespace gateway.domain.Entities
         [Required, Column(TypeName = "NVARCHAR(16)")]
         public string SerialNumber { get; set; }
         
-        /// <summary>TCP IPv4 / IPv6 Address</summary>
-        [Required, MinLength(4), MaxLength(16)]
-        public byte[] IpAddressBytes { get; set; }
+        /// <summary>TCP IPv4</summary>
+        [Required, MinLength(8), MaxLength(15)]
+        public string IpAddress { get; set; }
 
         /// <summary>Multiple associated peripheral devices</summary>
         public ICollection<Peripheral> Peripherals { get; set; }
-        
-        [NotMapped]
-        public IPAddress IpAddress
-        {
-            get => IpAddressBytes != null ? new IPAddress(IpAddressBytes) : null;
-            set => IpAddressBytes = value != null ? value.GetAddressBytes() : new byte[] { };
-        }
     }
 }

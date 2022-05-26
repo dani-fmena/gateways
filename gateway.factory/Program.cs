@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Collections.Generic;
 
 using Bogus;
@@ -40,7 +39,7 @@ namespace gateway.factory
                 {
                     Name = F.Hacker.Verb(),
                     SerialNumber = F.Random.Hash(12, true),
-                    IpAddress = F.Random.UInt(1, 5) < 3 ?  IPAddress.Parse(F.Internet.Ip()) : IPAddress.Parse(F.Internet.Ipv6())
+                    IpAddress = F.Internet.Ip()
                 };
 
                 _context.Gateways.Add(newGateway);
