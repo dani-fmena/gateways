@@ -30,10 +30,14 @@ namespace gateway.api.V1.Services
             {
                 var dbGateway = await Dal.Gateways
                         .Include(g => g.Peripherals)
-                        .FirstAsync(g => g.Id == gatewayId)
+                        .FirstOrDefaultAsync(g => g.Id == gatewayId)
                         .ConfigureAwait(false);
-                    
-                return Mapper.Map<Gateway, DtoGatewayRow>(dbGateway);
+
+                if (dbGateway != null) return Mapper.Map<Gateway, DtoGatewayRow>(dbGateway);
+
+                // 404
+                AddNotFoundProblem($"{DtlProblem.DtlNotFound}");
+                return null;               
             }
             catch (Exception e)
             {

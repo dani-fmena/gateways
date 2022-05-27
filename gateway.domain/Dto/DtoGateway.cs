@@ -1,4 +1,5 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace gateway.domain.Dto
 {
     /// <summary>Transfer object (ViewModel) good to represent a row in a list / table of Gateways</summary>
@@ -27,12 +28,15 @@ namespace gateway.domain.Dto
         public int Id { get; set; }
         
         /// <summary>Human-readable name</summary>
+        [Required]
         public string Name { get; set; }
-        
+
         /// <summary>A unique serial number</summary>
+        [Required, Alphanumeric]
         public string SerialNumber { get; set; }
         
         /// <summary>TCP IPv4 / IPv6 Address</summary>
+        [Required, IPv4]
         public string IpAddress { get; set; }
     }
 }

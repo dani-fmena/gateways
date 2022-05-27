@@ -43,8 +43,6 @@ namespace gateway.api.V1.Controllers.Management
         [HttpGet("row/{id:int}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Problem), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Problem), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Problem), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DtoGatewayRow>> GetRowById(int id)
         {
@@ -85,8 +83,6 @@ namespace gateway.api.V1.Controllers.Management
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Problem), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Problem), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Problem), StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<DtoGatewayRow>> Post(DtoGatewayIn postData)
         {
             // try to insert the new catalog

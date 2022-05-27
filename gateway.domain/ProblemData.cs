@@ -55,7 +55,7 @@
         public const string MsgMismatchRelatedIds = "Mismatch found with strong related entity identifier";
         public const string MsgInvalidString = "The string don't seems to be valid.";
         public const string MsgOnlyCapsLetters = "Only caps letters allowed.";
-        public const string MsgInvalidPhone = "This don't seems to be a valid phone number.";
+        public const string MsgInvalidIpv4 = "The given IPv4 don't seems to be valid.";
         public const string MsgInvalidOrder = "Invalid order direction.";
         public const string MsgInvalidRelations = "The related entities don't seems to be valid.";
         public const string MsgInvalidTimeRangeEnd = "The end of schedule timerange most be grater than the start value.";
