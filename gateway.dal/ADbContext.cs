@@ -41,7 +41,7 @@ namespace gateway.dal
             modelBuilder.Entity<Gateway>()
                 .HasMany(g => g.Peripherals)
                 .WithOne(p => p.Gateway)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             #endregion ======== RELATIONSHIPS ==================================================
 

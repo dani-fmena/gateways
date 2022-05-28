@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -86,10 +86,46 @@ namespace gateway.api.V1.Controllers.Management
         public async Task<ActionResult<DtoGatewayRow>> Post(DtoGatewayIn postData)
         {
             // try to insert the new catalog
-            var gateway = await _svcGateway.CreateGateway(postData);
+            var gateway = await _svcGateway.Create(postData);
             if (_svcGateway.HasProblem || gateway.Id <= 0) return ReProblem(_svcGateway.Problem);
             
             return CreatedAtAction(nameof(GetRowById), new {id = gateway.Id, version = "1"}, gateway);
+        }
+        
+        /// <summary>Update a <c>Gateways</c></summary>
+        /// <remarks>Update an existing <c>Gateway</c> according to the data given with the request</remarks>
+        /// <param name="putData">Input gateway data to update with</param>
+        [HttpPut]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Problem), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Problem), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<DtoGatewayIn>> Put(DtoGatewayIn putData)
+        {
+            var updatedGateway = await _svcGateway.Update(putData);
+            if (_svcGateway.HasProblem) return ReProblem(_svcGateway.Problem);
+            
+            return Ok(updatedGateway);
+        }
+        
+        /// <summary>Delete gateways</summary>
+        /// <remarks>
+        /// Delete a bunch of gateways (or just one) corresponding to the given identifiers list.
+        /// Note that all the associated peripherals to this gateway will be also removed from the system.
+        /// </remarks>
+        /// <param name="ids">Gateways identifiers to be deleted</param>
+        [HttpDelete("batch")]
+        [Consumes(MediaTypeNames.Application.Json)] 
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Problem), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteBulk(ICollection<int> ids)
+        {
+            await _svcGateway.BatchDelete(ids);                       // ar == was deleted
+            if (_svcGateway.HasProblem) return ReProblem(_svcGateway.Problem);
+            
+            return NoContent();
         }
     }
 }
