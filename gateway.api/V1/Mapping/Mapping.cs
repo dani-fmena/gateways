@@ -1,5 +1,6 @@
-﻿using System.Net;
+﻿using System;
 using AutoMapper;
+
 using gateway.domain.Dto;
 using gateway.domain.Entities;
 
@@ -10,7 +11,7 @@ namespace gateway.api.V1.Mapping
     {
         public Mapping()
         {
-            AllowNullCollections = false;               // https://docs.automapper.org/en/latest/Lists-and-arrays.html?highlight=collection
+            AllowNullCollections = false;
                 
             #region ======= GATEWAY ==================================================================
 
@@ -21,6 +22,16 @@ namespace gateway.api.V1.Mapping
             
             CreateMap<DtoGatewayIn, Gateway>()
                 .ForMember(entity => entity.Peripherals, option => option.Ignore());
+
+
+            #endregion ================================================================================
+            
+            #region ======= PERIPHERALS ===============================================================
+
+            CreateMap<DtoPeripheralIn, Peripheral>()
+                .ForMember(p => p.Uid, option => option.MapFrom(src => Guid.NewGuid()));
+
+            CreateMap<Peripheral, DtoPeripheralRow>();
 
 
             #endregion ================================================================================

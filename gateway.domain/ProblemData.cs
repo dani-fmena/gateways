@@ -13,6 +13,7 @@
         public const string ErrResNotFound = "Err.Resource.NotFound";
         public const string ErrNotFoundOrDeleted = "Err.NotFound.Or.Deleted";            // The deleted if for entity with soft delete field
         public const string ErrNullProbType = "Err.Null.Problem.Type";
+        public const string ErrBnssRuleFail = "Err.Bnss.Rule.Fail";
         public const string ErrSoftDelete = "Err.Soft.Delete";
         public const string ErrBadArgs = "Err.Bad.Arguments";
     }
@@ -38,6 +39,7 @@
         public const string DtlCollectionsToBig = "The collection is to big. \'{0}\'";
         public const string DtlCollectionsSizeMissMatch = "There is a miss match in the collections size, must be the same";
         public const string DtlDatabaseTableMapNotFound = "No map was found for the given field, a map must exist";
+        public const string MsgMoreThan10Perph = "The gateway has more than 10 peripherals or the gateway doesn't exist.";
     }
 
     /// <summary>

@@ -17,6 +17,7 @@ namespace gateway.api.Bootstrap
         public static void AddBusinessLogic(this IServiceCollection services)
         {
             services.AddTransient<ISvcGateway, SvcGateway>();
+            services.AddTransient<ISvcPeripherals, SvcPeripherals>();
         }
     }
 }

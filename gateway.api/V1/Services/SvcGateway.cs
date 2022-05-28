@@ -28,6 +28,9 @@ namespace gateway.api.V1.Services
     {
         public SvcGateway(ADbContext dal, IMapper mapper) : base(dal, mapper) { }
         
+        /// <summary>Get a specific <see cref="DtoGatewayRow"/> according with the given id</summary>
+        /// <param name="gatewayId">Gateway identifier</param>
+        /// <returns>A single <see cref="DtoGatewayRow"/></returns>
         public async Task<DtoGatewayRow> GetRowById(int gatewayId)
         {
             try
@@ -73,7 +76,7 @@ namespace gateway.api.V1.Services
 
         /// <summary>Insert / creates a new Gateway into the system</summary>
         /// <param name="dtoNewGateway">Gateway's data to post (create/insert)</param>
-        /// <returns>The id of the new gateway, 0 otherwise</returns>
+        /// <returns>A just created<see cref="Gateway"/>, null otherwise</returns>
         public async Task<Gateway> Create(DtoGatewayIn dtoNewGateway)
         {
             try
@@ -107,12 +110,13 @@ namespace gateway.api.V1.Services
                 if (updatedCount <= 0) AddDalProblem(DtlProblem.DtlOpsNotSuccessful);
                 return dtoGateway;
             }
-            catch (DbUpdateConcurrencyException e) { AddNotFoundProblem(); }
+            catch (DbUpdateConcurrencyException _) { AddNotFoundProblem(); }
             catch (Exception e) { AddProblem($"{e.Message} Origin: {e.Source}"); }
             return null;
         }
 
         /// <summary>Delete just one gateways or a bunch of them</summary>
+        /// <remarks>Note that all the associated peripherals to this gateway will be also removed from the system</remarks>
         /// <param name="ids">List of gateways identifiers to remove</param>
         public async Task<bool> BatchDelete(ICollection<int> ids)
         {

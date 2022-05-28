@@ -26,8 +26,6 @@ namespace gateway.factory
             
             #region ============================ SEEDERS ==========================================
             
-            if (!HouseKeeping(_context)) return;                                // if we can't clean the database we aren't going to seed
-
             var _gatways = new List<Gateway>();                                 // temporally save the new created gateways  
             
             // ---  seeding gateways ---
@@ -37,7 +35,7 @@ namespace gateway.factory
             {
                 var newGateway = new Gateway 
                 {
-                    Name = F.Hacker.Verb(),
+                    Name = F.Address.City(),
                     SerialNumber = F.Random.Hash(12, true),
                     IpAddress = F.Internet.Ip()
                 };
@@ -74,28 +72,6 @@ namespace gateway.factory
 
             #endregion ============================================================================
         }
-
-        /// <summary>
-        /// Clean the database to seed / populated with new data
-        /// </summary>
-        /// <param name="dbContext">Database context to handle db connections</param>
-        /// <returns>True in case the data was cleaned successfully</returns>
-        private static bool HouseKeeping(ADbContext dbContext)
-        {
-            try
-            {
-                var sqlScript =
-                    @"TRUNCATE TABLE Peripherals; DELETE FROM Gateways; DBCC CHECKIDENT ('gateway.dbo.Gateways', RESEED, 0);";
-                
-                dbContext.Database.ExecuteSqlRaw(sqlScript);
-                return true;
-            }
-            catch (SqlException e)
-            {
-                ConsoleProblem(e, "Something wrong with db cleaning");
-                return false;
-            }
-        }
         
         private static void ConsoleShowSuccess(string stage = null)
         {
@@ -111,13 +87,6 @@ namespace gateway.factory
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine(info);
-            Console.ResetColor();
-        }
-
-        private static void ConsoleProblem(Exception error, string msg = null)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(msg ?? error.Message);
             Console.ResetColor();
         }
     }

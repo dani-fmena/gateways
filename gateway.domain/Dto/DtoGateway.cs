@@ -36,12 +36,12 @@ namespace gateway.domain.Dto
         
         /// <summary>Human-readable name</summary>
         /// <example>Office</example>
-        [Required]
+        [Required, MaxLength(36)]
         public string Name { get; set; }
 
         /// <summary>A unique serial number</summary>
         /// <example>ABC789</example>>
-        [Required, Alphanumeric]
+        [Required, Alphanumeric, MaxLength(16)]
         public string SerialNumber { get; set; }
         
         /// <summary>TCP IPv4 / IPv6 Address</summary>

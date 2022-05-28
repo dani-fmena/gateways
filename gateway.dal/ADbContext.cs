@@ -22,10 +22,14 @@ namespace gateway.dal
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("GETUTCDATE()");
             
+            modelBuilder.Entity<Peripheral>()
+                .Property(p => p.IsOnline)
+                .ValueGeneratedNever()
+                .HasDefaultValue(true);
+            
             #endregion ======== DEFAULTS VALUES ================================================
             
             #region ======== INDEXES ===========================================================
-
             modelBuilder.Entity<Gateway>()
                 .HasIndex(g => g.SerialNumber)
                 .IsUnique();

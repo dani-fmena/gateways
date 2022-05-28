@@ -36,11 +36,11 @@ namespace gateway.api.V1.Controllers.Management
         
         /// <summary>Get specific <c>gateway row</c></summary>
         /// <remarks>
-        /// Get specific gateway row given, the catalog identifier as request parameter
+        /// Get specific gateway row given the identifier as request parameter
         /// </remarks>
         /// <param name="id" example="68">gateway Id</param>
         /// <response code="200">Return gateway row for the datatable</response>
-        [HttpGet("row/{id:int}")]
+        [HttpGet("rows/{id:int}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Problem), StatusCodes.Status404NotFound)]
@@ -71,9 +71,9 @@ namespace gateway.api.V1.Controllers.Management
             return Ok(responseList);
         }
         
-        /// <summary> Create a gateway from the staff management zone </summary>
+        /// <summary>Create a gateway</summary>
         /// <remarks>
-        /// Create a gateway according to the data present on the request
+        /// Create a gateway from the staff management section, according to the data present on the request
         /// 
         /// ❗ In post actions, the entity ID must be 0, or absent
         /// </remarks>
