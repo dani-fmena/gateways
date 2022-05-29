@@ -31,6 +31,9 @@ namespace gateway.api.V1.Mapping
             CreateMap<DtoPeripheralIn, Peripheral>()
                 .ForMember(p => p.Uid, option => option.MapFrom(src => Guid.NewGuid()));
 
+            CreateMap<DtoPeripheralUpdateIn, Peripheral>()
+                .ForMember(p => p.Created, option => option.Ignore());
+
             CreateMap<Peripheral, DtoPeripheralRow>();
 
 

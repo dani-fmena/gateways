@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 using gateway.domain.Entities;
 
@@ -16,12 +17,14 @@ namespace gateway.dal
         {
             
             #region ======== DEFAULTS VALUES ===================================================
+
             
             modelBuilder.Entity<Peripheral>()
                 .Property(p => p.Created)
                 .ValueGeneratedOnAdd()
-                .HasDefaultValueSql("GETUTCDATE()");
-            
+                .HasDefaultValueSql("GETUTCDATE()")
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);     // read only solution
+
             modelBuilder.Entity<Peripheral>()
                 .Property(p => p.IsOnline)
                 .ValueGeneratedNever()

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gateway.domain.Entities
 {
@@ -22,6 +24,7 @@ namespace gateway.domain.Entities
     public class EntityD : Entity
     {
         /// <summary>Creation date</summary>
+        /// <example>2022-05-28 22:27:55</example>
         public DateTime Created { get; set; }
     }
 }

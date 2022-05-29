@@ -34,6 +34,44 @@ namespace gateway.api.V1.Controllers.Management
             _svcPeripherals = svcPeripherals;
         }
         
+        /// <summary>
+        /// List of <c>Peripherals</c>
+        /// </summary>
+        /// <remarks>
+        /// Useful for getting a list of <c><see cref="Peripheral"/></c> rows according to a given <see cref="Gateway"/> identifier.
+        /// </remarks>
+        /// <returns>A list of <see cref="Peripheral"/> rows</returns>
+        [HttpGet("rows")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Problem), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ICollection<DtoPeripheralRow>>> GetRows()
+        {
+            var responseList = await _svcPeripherals.GetRows();
+            if (_svcPeripherals.HasProblem) return ReProblem(_svcPeripherals.Problem);
+
+            return Ok(responseList);
+        }
+        
+        /// <summary>
+        /// List of <c>Peripherals</c>
+        /// </summary>
+        /// <remarks>
+        /// Useful for getting a list of <c><see cref="Peripheral"/></c> rows according to a given <see cref="Gateway"/> identifier.
+        /// </remarks>
+        /// <returns>A list of <see cref="Peripheral"/> rows</returns>
+        [HttpGet("rows/gateway/{gatewayId:int}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Problem), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ICollection<DtoPeripheralRow>>> GetRowsByGateway(int gatewayId)
+        {
+            var responseList = await _svcPeripherals.GetRowsByGateway(gatewayId);
+            if (_svcPeripherals.HasProblem) return ReProblem(_svcPeripherals.Problem);
+
+            return Ok(responseList);
+        }
+        
         /// <summary>Get specific <c>peripherals row</c></summary>
         /// <remarks>
         /// Get specific peripherals row given the identifier as request parameter
@@ -73,7 +111,6 @@ namespace gateway.api.V1.Controllers.Management
             return CreatedAtAction(nameof(GetRowById), new {id = peripheral.Id, version = "1"}, peripheral);
         }
         
-        /*
         /// <summary>Update a <c>Peripheral</c></summary>
         /// <remarks>Update an existing <c>Peripheral</c> according to the data given with the request</remarks>
         /// <param name="putData">Input peripheral data to update with</param>
@@ -83,12 +120,30 @@ namespace gateway.api.V1.Controllers.Management
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Problem), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Problem), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DtoPeripheralRow>> Put(DtoGatewayIn putData)
+        public async Task<ActionResult<DtoPeripheralRow>> Put(DtoPeripheralUpdateIn putData)
         {
-            var updatedGateway = await _svcGateway.Update(putData);
-            if (_svcGateway.HasProblem) return ReProblem(_svcGateway.Problem);
+            var updatedGateway = await _svcPeripherals.Update(putData);
+            if (_svcPeripherals.HasProblem) return ReProblem(_svcPeripherals.Problem);
             
             return Ok(updatedGateway);
-        }*/
+        }
+        
+        /// <summary>Delete peripherals</summary>
+        /// <remarks>
+        /// Delete a bunch of peripherals (or just one) corresponding to the given identifiers list.
+        /// </remarks>
+        /// <param name="ids">Peripherals identifiers to be deleted</param>
+        [HttpDelete("batch")]
+        [Consumes(MediaTypeNames.Application.Json)] 
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Problem), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteBulk(ICollection<int> ids)
+        {
+            await _svcPeripherals.BatchDelete(ids);                       // ar == was deleted
+            if (_svcPeripherals.HasProblem) return ReProblem(_svcPeripherals.Problem);
+            
+            return NoContent();
+        }
     }
 }

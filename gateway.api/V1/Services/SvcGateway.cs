@@ -54,8 +54,8 @@ namespace gateway.api.V1.Services
             return null;
         }
 
-        /// <summary>Get all the data that defines a <see cref="Gateway"/>, root locations included</summary>
-        /// <returns><see cref="Gateway"/> data</returns>
+        /// <summary>Get <see cref="Gateway"/>list</summary>
+        /// <returns><see cref="Gateway"/> list</returns>
         public async Task<ICollection<DtoGatewayRow>> GetRows()
         {
             try
@@ -99,7 +99,6 @@ namespace gateway.api.V1.Services
         public async Task<DtoGatewayIn> Update(DtoGatewayIn dtoGateway)
         {
             if (!this.IsIdValid(dtoGateway.Id)) return null;
-            
             try
             {
                 var newGateway = Mapper.Map<DtoGatewayIn, Gateway>(dtoGateway);
@@ -110,7 +109,7 @@ namespace gateway.api.V1.Services
                 if (updatedCount <= 0) AddDalProblem(DtlProblem.DtlOpsNotSuccessful);
                 return dtoGateway;
             }
-            catch (DbUpdateConcurrencyException _) { AddNotFoundProblem(); }
+            catch (DbUpdateConcurrencyException) { AddNotFoundProblem(); }
             catch (Exception e) { AddProblem($"{e.Message} Origin: {e.Source}"); }
             return null;
         }
