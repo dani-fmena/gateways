@@ -63,7 +63,7 @@ namespace gateway.api.V1.Controllers.Management
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Problem), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ICollection<Gateway>>> GetRows()
+        public async Task<ActionResult<ICollection<DtoGatewayRow>>> GetRows()
         {
             var responseList = await _svcGateway.GetRows();
             if (_svcGateway.HasProblem) return ReProblem(_svcGateway.Problem);
