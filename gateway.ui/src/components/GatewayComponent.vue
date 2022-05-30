@@ -10,20 +10,20 @@
     </div>
       <q-item  v-for="gateway in gateways" :key="gateway.id">
         <q-item-section avatar top>
-        <router-link  :to="`/gateway/${gateway.id}`">
-          <q-icon name="router" color="black" size="34px" />
+          <router-link  :to="`/gateway/${gateway.id}`">
+            <q-icon name="router" color="black" size="34px" />
           </router-link>
         </q-item-section>
 
 
         <q-item-section clickable top class="col-2 gt-sm">
-        <router-link  :to="`/gateway/${gateway.id}`">
-          <q-item-label class="q-mt-sm ellipsis">{{ gateway.name }}</q-item-label>
+          <router-link  :to="`/gateway/${gateway.id}`">
+            <q-item-label class="q-mt-sm ellipsis">{{ gateway.name }}</q-item-label>
           </router-link>
         </q-item-section>
 
 
-        <q-item-section top :to="`/gateway/${gateway.id}`">
+        <q-item-section top>
           <q-item-label lines="1">
             <span class="text-weight-medium">Serial number: </span>
             <span class="text-grey-8"> {{ gateway.serialNumber }}</span>
@@ -35,6 +35,11 @@
           <q-item-label caption lines="1">
             Associated devices:
             {{ gateway.peripheralsAssociated }}
+          </q-item-label>
+          <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase">
+            <router-link  :to="`/gateway/${gateway.id}`">
+              <span class="cursor-pointer">more details</span>
+            </router-link>
           </q-item-label>
         </q-item-section>
 

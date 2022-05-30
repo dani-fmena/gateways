@@ -8,7 +8,7 @@
         </q-btn>
       </div>
     </div>
-      <q-item clickable v-for="device in devices" :key="device.id">
+      <q-item v-for="device in devices" :key="device.id">
         <q-item-section avatar top>
           <q-icon name="devices_other" color="black" size="34px" />
         </q-item-section>
