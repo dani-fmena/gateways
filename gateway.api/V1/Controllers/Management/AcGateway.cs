@@ -119,6 +119,7 @@ namespace gateway.api.V1.Controllers.Management
         [Consumes(MediaTypeNames.Application.Json)] 
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Problem), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Problem), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> DeleteBulk(ICollection<int> ids)
         {
