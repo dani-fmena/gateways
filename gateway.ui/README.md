@@ -1,6 +1,6 @@
 # Gateway App (gateway.ui)
 
-The service must also offer an operation for displaying information about all stored gateways (and their devices) and an operation for displaying details for a single gateway. Finally, it must be possible to add and remove a device from a gateway.
+The ui must also offer an operation for displaying information about all stored gateways (and their devices) and an operation for displaying details for a single gateway. Finally, it must be possible to add and remove a device from a gateway.
 
 ### Start the app using automated build
 ```bash
