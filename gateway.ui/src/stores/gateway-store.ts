@@ -30,6 +30,16 @@ export const useGatewayStore = defineStore({
         console.log(error)
       }
     },
+    async fetchGatewayByID(id: number) {
+      try {
+        const data = await api.get('/v1/mngmt/AcGateway/rows/'+id)
+        return data.data
+      }
+      catch (error) {
+        alert(error)
+        console.log(error)
+      }
+    },
     createNewGateway(gateway: Gateway) {
       if (!gateway) return;
 
@@ -46,9 +56,34 @@ export const useGatewayStore = defineStore({
       }
     },
 
-    deleteGateway(index: number) {
-      if (index === -1) return;
-      this.gateways.splice(index, 1);
+    async addGateway(gateway: Gateway) {
+        console.log('--> ', gateway)
+
+        return await api.post('/v1/mngmt/AcGateway', gateway)
+        .then( () => {
+            this.gateways.push(gateway);
+         })
+         .catch((error) => {
+            // alert(error)
+            // console.log(error);
+            throw error
+         });
+    },
+
+    async deleteGateway(id: number) {
+      const config = {
+        data: [id]
+      }
+      return await api.delete('/v1/mngmt/AcGateway/batch', config)
+      .then( () => {
+          const index = this.findIndexById(id);
+          this.gateways.splice(index, 1);
+       })
+       .catch((error) => {
+          // alert(error)
+          // console.log(error);
+          throw error
+       });
     },
 
     findIndexById(id: number) {

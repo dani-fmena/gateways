@@ -16,12 +16,11 @@ export const useDeviceStore = defineStore({
   getters: {
     getDevices(state) {
       return state.devices
-    }
+    },
   },
 
   actions: {
-    async fetchDevices(gatewayId: string|string[]) {
-      console.log("fetchDevices: ", gatewayId)
+    async fetchDevices(gatewayId: string) {
       try {
         const data = await api.get('/v1/mngmt/AcPeripheral/rows/gateway/'+gatewayId)
         this.devices = data.data
@@ -31,12 +30,31 @@ export const useDeviceStore = defineStore({
         console.log(error)
       }
     },
-
-    deleteDevices(index: number) {
-      // const index = this.findIndexById(id);
-      console.log("gw: ", this.devices)
-      if (index === -1) return;
-      this.devices.splice(index, 1);
+    async addDevice(device: Device) {
+      return await api.post('/v1/mngmt/AcPeripheral', device)
+      .then( () => {
+          this.devices.push(device);
+       })
+       .catch((error) => {
+          // alert(error)
+          // console.log(error);
+          throw error
+       });
+    },
+    async deleteDevices(id: number) {
+      const config = {
+        data: [id]
+      }
+      return await api.delete('/v1/mngmt/AcPeripheral/batch', config)
+      .then( () => {
+          const index = this.findIndexById(id);
+          this.devices.splice(index, 1);
+       })
+       .catch((error) => {
+          // alert(error)
+          // console.log(error);
+          throw error
+       });
     },
 
     findIndexById(id: number) {
