@@ -77,13 +77,7 @@ async function doJestTests() {
     //#region ======= SETUP ===============================================================
 
     // some bootstrapping vars
-    const querystring = require('querystring');
-    const axios = require('axios')
     const config = require('./envs/config.json');
-    const headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': '*/*'
-    };
 
     baseUrl = `http://${config.HOST}:${config.PORT}/v${config.API_VERSION}`;
     f.set("url", baseUrl);

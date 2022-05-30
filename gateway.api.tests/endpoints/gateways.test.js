@@ -1,6 +1,6 @@
 ﻿import request from "supertest";
 import { dateTimeRegex } from "../lib/rexpr";
-import { gatewayDataSchema, storePageSchema } from "../lib/schemas";
+import { gatewayPostOutSchema, gatewayRowSchema } from "../lib/schemas";
 
 //#region ======= VARS DECLARATION ====================================================
 
@@ -13,85 +13,36 @@ const addFormats = require("ajv-formats")                       // Ajv formats
 
 const rowGatewayId = 2                                          // endpoint request param
 
-const sStoreOk = {
-    "storeActor": {
-        // "id": 0,
-        "isBan": false,
-        "cell": "52004010",
-        "name": "Naruto",
-        "lastName": "Uzumaki",
-        "email": "n.uzumaki@gmail.com",
-        "password": "h1n4t4shan",
-        "passwordConfirmation": "h1n4t4shan",
-        "countryCode": "JP",
-        "stateCode": "OS",
-        "address": "Agatsumi .St #427"
-    },
-    "storeData": {
-        // "accountId": 0,
-        "isApproved": true,
-        "isActive": false,
-        "storeName": "Isharaku Ramen",
-        "storeType": 1,
-        "priceLevel": 3,
-        "readyTime": 30,
-        "long": -82.35896,
-        "lat": 23.135305
-    }
+
+/**
+ * Gateway object to test a gateway creation.
+ * @type {{serialNumber: string, name: string, ipAddress: string}}
+ */
+const gatewayOk = {
+    "name": "Avastanza",
+    "serialNumber": "ABC789",
+    "ipAddress": "10.14.200.2"
 }
 
-const sStore_InvalidFields = {
-    "storeActor": {
-        // "id": 0,
-        "isBan": 400,
-        "cell": "rasengan",
-        "name": 4500,
-        "lastName": 4500,
-        "email": "n.uzumaki@gmail",
-        "password": "h1n4t4",
-        "passwordConfirmation": "h1n4t4",
-        "countryCode": 750,
-        "stateCode": "OS",
-        "address": "Agatsumi .St #427Agatsumi .St #427Agatsumi .St #427Agatsumi .St #427Agatsumi .St #427Agatsumi .St #427"
-    },
-    "storeData": {
-        // "accountId": 0,
-        "isApproved": true,
-        "isActive": false,
-        "storeName": false,
-        "storeType": 3,
-        "priceLevel": 40,
-        "readyTime": "Hokage",
-        "long": -82.35896,
-        "lat": 23.135305
-    }
+/**
+ * Gateway object to test a bad request. The IPv4 field is wrong.
+ * @type {{serialNumber: string, name: string, ipAddress: string}}
+ */
+const gatewayInvalidFields = {     
+    "name": "Office",
+    "serialNumber": "ABC789",
+    "ipAddress": "256.256.255.0"
 }
 
-const sStore_Update = {
-    "storeActor": {
-        "id": 0,
-        "isBan": false,
-        "cell": "52247780",
-        "name": "Inna",
-        "lastName": "Doe",
-        "email": "myuser@gmail.com",
-        "password": "mys3cr3t3",
-        "passwordConfirmation": "mys3cr3t3",
-        "countryCode": "CU",
-        "stateCode": "LH",
-        "address": "Agatsumi .St #427"
-    },
-    "storeData": {
-        "accountId": 0,
-        "isApproved": true,
-        "isActive": false,
-        "storeName": "Mama mia",
-        "storeType": 1,
-        "priceLevel": 1,
-        "readyTime": 60,
-        "long": 20.11111,
-        "lat": 40.111111
-    }
+/**
+ * For testing the update gateway endpoint with non existing gateway
+ * @type {{serialNumber: string, name: string, ipAddress: string, id: number}}
+ */
+let nonExistingGateway = {
+    "id": 15,
+    "name": "Chese",
+    "serialNumber": "OOOOOOOO",
+    "ipAddress": "20.40.200.10"
 }
 
 //#endregion ==========================================================================
@@ -105,10 +56,12 @@ ajv.addFormat('date-time', {
     validate: ( dateTimeString ) => dateTimeRegex.test(dateTimeString)
 });
 
-// let pageSchemaValidator = ajv.compile(storePageSchema);
-let dataSchemaValidator = ajv.compile(gatewayDataSchema);
+let gatewayRowSchemaValidator = ajv.compile(gatewayRowSchema);
+let gatewayPostSchemaValidator = ajv.compile(gatewayPostOutSchema);
 
 //#endregion ==========================================================================
+
+//#region ======= TEST CASES ==========================================================
 
 beforeAll(async () => {
     await new Promise((r) => setTimeout(r, 1000));
@@ -132,7 +85,7 @@ describe(`GATEWAY [GET] ${scopedUrl}/${rowGatewayId}`, () => {
 
         expect(response.statusCode).toEqual(200);
         
-        let valid = dataSchemaValidator(response.body);
+        let valid = gatewayRowSchemaValidator(response.body);
         expect(valid).toBeTruthy();
     });
 })
@@ -142,7 +95,7 @@ describe(`GATEWAY [GET] ${scopedUrl}/${rowGatewayId}`, () => {
  */
 describe(`GATEWAY list [GET] ${scopedUrl}/rows`, () => {
     
-    test('chk GATEWAY list amount', async () => {
+    test('chk gateway list amount', async () => {
         const response = await request(scopedUrl)
             .get('/rows')
 
@@ -155,64 +108,131 @@ describe(`GATEWAY list [GET] ${scopedUrl}/rows`, () => {
             .get('/rows')
 
         expect(response.statusCode).toEqual(200);
-        let valid = dataSchemaValidator(response.body[0]);
+        let valid = gatewayRowSchemaValidator(response.body[0]);
         expect(valid).toBeTruthy();
     });
 })
 
 /**
- * Delete existing gateways
+ * Delete existing Gateways
  */
 describe(`GATEWAY [DELETE] ${scopedUrl}/batch`, () => {
 
     test('chk 400 invalid params', async () => {
 
         const response = await request(scopedUrl)
-            .delete('/bulk')
+            .delete('/batch')
             .send([ "asdf", "qwerty" ])
             .set('Content-Type', 'application/json')
-            .set('Authorization', 'Bearer ' + authTk)
 
         expect(response.statusCode).toEqual(400);
     });
 
-    test('chk 401', async () => {
+    test('chk 404 for nonexistent gateway', async () => {
         const response = await request(scopedUrl)
-            .delete('/bulk')
-            .send([3])
-            .set('Content-Type', 'application/json');
-
-        expect(response.statusCode).toEqual(401);
-    });
-
-    test('chk 404 for nonexistent store', async () => {
-        const response = await request(scopedUrl)
-            .delete('/bulk')
+            .delete('/batch')
             .send([800])
-            .set('Authorization', 'Bearer ' + authTk)
             .set('Content-Type', 'application/json');
 
         expect(response.statusCode).toEqual(404);
     });
 
-    test('chk delete a batch of stores, also check 404 for already deleted stores', async () => {
+    test('chk delete a batch of gateways, also check 404 for just deleted stores', async () => {
 
         const response = await request(scopedUrl)
-            .delete('/bulk')
+            .delete('/batch')
             .send([ 3, 4 ])
             .set('Content-Type', 'application/json')
-            .set('Authorization', 'Bearer ' + authTk)
 
         expect(response.statusCode).toEqual(204);
 
-        // check 404 for already deleted stores
+        // check 404 for just deleted stores
         const resDel = await request(scopedUrl)
-            .delete('/bulk')
+            .delete('/batch')
             .send([ 3, 4 ])
             .set('Content-Type', 'application/json')
-            .set('Authorization', 'Bearer ' + authTk)
-
+        
         expect(resDel.statusCode).toEqual(404);
+    });
+});
+
+/**
+ * Create a new Gateway
+ */
+describe(`GATEWAY [POST] ${scopedUrl}`, () => {
+
+    test('chk 400 with invalid params', async () => {
+
+        const reponse = await request(scopedUrl)
+            .post('')
+            .send(gatewayInvalidFields)
+            .set('Content-Type', 'application/json')
+
+        expect(reponse.statusCode).toEqual(400);
+        expect(reponse.body.errors['IpAddress'][0]).toContain('don\'t seems to be valid');
+    });
+
+    test('chk create new gateway and the response match the scheme', async () => {
+        const response = await request(scopedUrl)
+            .post('')
+            .send(gatewayOk)
+            .set('Content-Type', 'application/json')
+
+        expect(response.statusCode).toEqual(201);
+
+        let valid = gatewayPostSchemaValidator(response.body);
+        expect(valid).toBeTruthy();
+
+        expect(response.body.id >= 0).toBeTruthy();
+        expect(response.body.name).toEqual(gatewayOk.name);
+        expect(response.body.ipAddress).toEqual(gatewayOk.ipAddress);
+    });
+});
+
+/**
+ * Update an existing GATEWAY
+ */
+describe(`Gateway [PUT] ${scopedUrl}`, () => {
+
+    test('chk 400 with invalid params', async () => {
+
+        const reponse = await request(scopedUrl)
+            .post('')
+            .send(gatewayInvalidFields)
+            .set('Content-Type', 'application/json')
+
+        expect(reponse.statusCode).toEqual(400);
+        expect(reponse.body.errors['IpAddress'][0]).toContain('don\'t seems to be valid');
+    });
+
+    test('chk 404', async () => {
+        
+        const response = await request(scopedUrl)
+            .put('')
+            .send(nonExistingGateway)
+            .set('Content-Type', 'application/json')
+
+        expect(response.statusCode).toEqual(404);
+    });
+
+    test('chk update an existing gateway and response match the schema', async () => {
+
+        nonExistingGateway.id = 10              // Now it should be an 'Existing Gateway'
+
+        const response = await request(scopedUrl)
+            .put('')
+            .send(nonExistingGateway)
+            .set('Content-Type', 'application/json')
+
+        expect(response.statusCode).toEqual(200);
+
+        let valid = gatewayPostSchemaValidator(response.body);
+        expect(valid).toBeTruthy();
+        
+        expect(response.body.serialNumber).toEqual(nonExistingGateway.serialNumber);
+        expect(response.body.name).toEqual(nonExistingGateway.name);
     });
 
 });
+
+//#endregion ==========================================================================

@@ -34,7 +34,7 @@ namespace gateway.factory
             
             // ---  seeding gateways ---
             ConsoleShowInfo("-> running SEEDERS");
-            var gCount = 5;                                                     // gCount == gateway count
+            var gCount = 10;                                                     // gCount == gateway count
             do
             {
                 var newGateway = new Gateway 
@@ -87,7 +87,7 @@ namespace gateway.factory
             try
             {
                 var sqlScript =
-                    @"ALTER TABLE Peripherals DROP CONSTRAINT FK_Peripherals_Gateways_GatewayId; TRUNCATE TABLE Peripherals; TRUNCATE TABLE Gateways; ALTER TABLE Peripherals ADD CONSTRAINT FK_Peripherals_Gateways_GatewayId FOREIGN KEY (GatewayId) REFERENCES Gateways(id);";
+                    @"ALTER TABLE Peripherals DROP CONSTRAINT FK_Peripherals_Gateways_GatewayId; TRUNCATE TABLE Peripherals; TRUNCATE TABLE Gateways; ALTER TABLE Peripherals ADD CONSTRAINT FK_Peripherals_Gateways_GatewayId FOREIGN KEY (GatewayId) REFERENCES Gateways(id) ON DELETE CASCADE;";
                 
                 dbContext.Database.ExecuteSqlRaw(sqlScript);
                 return true;
