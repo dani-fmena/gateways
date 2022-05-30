@@ -1,20 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    Devices
-    {{$route.params.id}}
-
     <device-component :devices="devices"/>
-
-    <!-- <div v-if="devices.length">
-     {{devices}}
-    </div>
-    <div v-else class="no-items absolute-center">
-      <q-icon name="check" size="100px" color="primary"/>
-      <div class="text-h5 text-primary text-center">
-        No devices
-    </div>
-  </div>-->
-
   </q-page>
 </template>
 

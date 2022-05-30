@@ -1,7 +1,6 @@
 import { Device } from '../components/models';
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios'
-import { useGatewayStore } from 'src/stores/gateway-store';
 
 export type DeviceState = {
   devices: Device[];
@@ -22,7 +21,6 @@ export const useDeviceStore = defineStore({
 
   actions: {
     async fetchDevices(gatewayId: string) {
-      console.log("fetchDevices: ", gatewayId)
       try {
         const data = await api.get('/v1/mngmt/AcPeripheral/rows/gateway/'+gatewayId)
         this.devices = data.data
@@ -32,14 +30,25 @@ export const useDeviceStore = defineStore({
         console.log(error)
       }
     },
+    async addDevice(device: Device) {
+      console.log('store -> addDevice: ', device)
 
+      return api.post('/v1/mngmt/AcPeripheral', device)
+      .then( () => {
+          this.devices.push(device);
+       })
+       .catch((error) => {
+          // alert(error)
+          // console.log(error);
+          throw error
+       });
+    },
     async deleteDevices(id: number) {
-      console.log("deleteDevices: ", this.devices)
       const config = {
         data: [id]
       }
       return api.delete('/v1/mngmt/AcPeripheral/batch', config)
-      .then( (response) => {
+      .then( () => {
           const index = this.findIndexById(id);
           this.devices.splice(index, 1);
        })
