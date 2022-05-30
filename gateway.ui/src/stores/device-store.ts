@@ -31,9 +31,7 @@ export const useDeviceStore = defineStore({
       }
     },
     async addDevice(device: Device) {
-      console.log('store -> addDevice: ', device)
-
-      return api.post('/v1/mngmt/AcPeripheral', device)
+      return await api.post('/v1/mngmt/AcPeripheral', device)
       .then( () => {
           this.devices.push(device);
        })
@@ -47,7 +45,7 @@ export const useDeviceStore = defineStore({
       const config = {
         data: [id]
       }
-      return api.delete('/v1/mngmt/AcPeripheral/batch', config)
+      return await api.delete('/v1/mngmt/AcPeripheral/batch', config)
       .then( () => {
           const index = this.findIndexById(id);
           this.devices.splice(index, 1);

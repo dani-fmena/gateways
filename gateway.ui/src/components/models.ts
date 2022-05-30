@@ -17,10 +17,10 @@ export function generateFakeData(): Gateway {
 }
 
 export interface Device {
-  "id": number;
-  "uid": string;
-  "vendor":string;
-  "isOnline": boolean;
-  "gatewayId": number;
-  "created": string;
+  'id': number;
+  'uid': string;
+  'vendor':string;
+  'isOnline': boolean;
+  'gatewayId': number;
+  'created': string;
 }

@@ -34,10 +34,10 @@
 
         <q-item-section top side>
           <div class="text-grey-8 q-gutter-xs">
-            <q-btn @click.stop="deleteDevice(device.id, device.uid)" class="gt-xs" size="12px" flat dense round icon="delete">
+            <q-btn @click.stop="deleteDevice(device.id, device.uid)" class="gt-xs" size="md" flat dense round icon="delete">
               <q-tooltip class="bg-accent">remove a device</q-tooltip>
             </q-btn>
-            <q-btn class="gt-xs" size="12px" flat dense round icon="edit"><q-tooltip class="bg-accent">edit a device</q-tooltip></q-btn>
+            <q-btn class="gt-xs hidden" size="12px" flat dense round icon="edit"><q-tooltip class="bg-accent">edit a device</q-tooltip></q-btn>
           </div>
         </q-item-section>
       </q-item>
@@ -188,8 +188,8 @@ export default defineComponent({
           gatewayId: Number(router.currentRoute.value.params.id.toString()),
           id: 0,
           isOnline: true,
-          uid: "",
-          vendor: "",
+          uid: '',
+          vendor: '',
         })
 
     function deleteDevice (id: number, uid: string) {
