@@ -1,16 +1,22 @@
 <template>
   <q-list v-if="gateways.length" padding bordered separator class="rounded-borders" style="max-width: 800px; width: 600px;">
       <q-item-label header>Gateways</q-item-label>
-      <q-item clickable v-for="(gateway, index) in gateways" :key="gateway.id" :to="`/gateway/${gateway.id}`">
+      <q-item  v-for="gateway in gateways" :key="gateway.id">
         <q-item-section avatar top>
+        <router-link  :to="`/gateway/${gateway.id}`">
           <q-icon name="router" color="black" size="34px" />
+          </router-link>
         </q-item-section>
 
-        <q-item-section top class="col-2 gt-sm">
+
+        <q-item-section clickable top class="col-2 gt-sm">
+        <router-link  :to="`/gateway/${gateway.id}`">
           <q-item-label class="q-mt-sm ellipsis">{{ gateway.name }}</q-item-label>
+          </router-link>
         </q-item-section>
 
-        <q-item-section top>
+
+        <q-item-section top :to="`/gateway/${gateway.id}`">
           <q-item-label lines="1">
             <span class="text-weight-medium">Serial number: </span>
             <span class="text-grey-8"> {{ gateway.serialNumber }}</span>
@@ -27,7 +33,7 @@
 
         <q-item-section top side>
           <div class="text-grey-8 q-gutter-xs">
-            <q-btn @click.stop="deleteGateway(index, gateway.serialNumber)" class="gt-xs" size="12px" flat dense round icon="delete">
+            <q-btn @click.stop="deleteGateway(gateway.id, gateway.serialNumber)" class="gt-xs" size="12px" flat dense round icon="delete">
               <q-tooltip class="bg-accent">remove a gateway</q-tooltip>
             </q-btn>
             <q-btn class="gt-xs" size="12px" flat dense round icon="edit"><q-tooltip class="bg-accent">edit a gateway</q-tooltip></q-btn>
@@ -72,16 +78,20 @@ export default defineComponent({
     const $q = useQuasar()
     const gatewayStore = useGatewayStore();
 
-    function deleteGateway (index: number, serialNumber: string) {
+    function deleteGateway (id: number, serialNumber: string) {
       $q.dialog({
             title: 'Confirm',
             message: 'Are you sure you want to delete the gateway: '+serialNumber+'?',
             cancel: true,
             persistent: true
           }).onOk(() => {
-            console.log('aquii ', index)
-            gatewayStore.deleteGateway(index);
-            $q.notify('Gateway removed')
+              gatewayStore.deleteGateway(id)
+              .then(() => {
+                $q.notify('Gateway removed')
+              })
+              .catch(() => {
+                $q.notify({type: 'negative', message: 'There was an error remove the gateway', icon: 'report_problem', position: 'top-right' })
+              });
           })
     }
     return { deleteGateway, ...useDisplayGateways(toRef(props, 'gateways')) };
