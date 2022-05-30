@@ -89,6 +89,7 @@ namespace gateway.api.V1.Services
                 if (newGateway.Id <= 0) AddDalProblem(DtlProblem.DtlOpsNotSuccessful);
                 return newGateway;
             }
+            catch (DbUpdateException e) { AddMemberProblem(nameof(Gateway.SerialNumber), e.InnerException?.Message); }
             catch (Exception e) { AddProblem($"{e.Message} Origin: {e.Source}"); }
             return null;
         }

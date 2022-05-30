@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 using Bogus;
 
 using gateway.dal;
 using gateway.domain.Entities;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace gateway.factory
 {
@@ -26,11 +28,13 @@ namespace gateway.factory
             
             #region ============================ SEEDERS ==========================================
             
+            if (!HouseKeeping(_context)) return;                                // if we can't clean the database we aren't going to seed
+            
             var _gatways = new List<Gateway>();                                 // temporally save the new created gateways  
             
             // ---  seeding gateways ---
             ConsoleShowInfo("-> running SEEDERS");
-            var gCount = 5;                                                     // gCount == gateway count
+            var gCount = 10;                                                     // gCount == gateway count
             do
             {
                 var newGateway = new Gateway 
@@ -72,6 +76,35 @@ namespace gateway.factory
 
             #endregion ============================================================================
         }
+        
+        /// <summary>
+        /// Clean the database to seed / populated with new data
+        /// </summary>
+        /// <param name="dbContext">Database context to handle db connections</param>
+        /// <returns>True in case the data was cleaned successfully</returns>
+        private static bool HouseKeeping(ADbContext dbContext)
+        {
+            try
+            {
+                var sqlScript =
+                    @"ALTER TABLE Peripherals DROP CONSTRAINT FK_Peripherals_Gateways_GatewayId; TRUNCATE TABLE Peripherals; TRUNCATE TABLE Gateways; ALTER TABLE Peripherals ADD CONSTRAINT FK_Peripherals_Gateways_GatewayId FOREIGN KEY (GatewayId) REFERENCES Gateways(id) ON DELETE CASCADE;";
+                
+                dbContext.Database.ExecuteSqlRaw(sqlScript);
+                return true;
+            }
+            catch (SqlException e)
+            {
+                ConsoleProblem(e, "Something wrong with db cleaning");
+                return false;
+            }
+        }
+        
+        private static void ConsoleProblem(Exception error, string msg = null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(msg ?? error.Message);
+                    Console.ResetColor();
+                }
         
         private static void ConsoleShowSuccess(string stage = null)
         {

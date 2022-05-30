@@ -147,18 +147,6 @@ namespace gateway.api.V1.Services
         }
 
         /// <summary>
-        /// Comes in handy as shortcut when the given data isn't valid. Add a entity member problem. 
-        /// </summary>
-        /// <remarks>
-        /// Wrapper around <see cref="AddProblem(string,int,string)"/> overloaded methods
-        /// </remarks>
-        /// <param name="msg">Problem message</param>
-        public void AddWrongDataProblem(string msg)
-        {
-            AddProblem(TksProblem.ErrBadArgs, StatusCodes.Status400BadRequest, msg);
-        }
-
-        /// <summary>
         /// Directly add a 'Resource Not Found' problem to the service
         /// </summary>
         /// <remarks>
@@ -181,42 +169,6 @@ namespace gateway.api.V1.Services
         {
             AddProblem(TksProblem.ErrDal, StatusCodes.Status502BadGateway, msg);
         }
-
-        /// <summary>
-        /// Directly add unprocessable entity problem to the scope service
-        /// </summary>
-        /// <remarks>
-        /// Wrapper around <see cref="AddProblem(string,int,string)"/> overloaded method
-        /// </remarks>
-        /// <param name="msg" example="A problem with the entity">Problem message</param>
-        private void AddDuplicatedKeyProblem(string msg)
-        {
-            AddProblem(TksProblem.ErrDalDuplicateKey, StatusCodes.Status422UnprocessableEntity, msg);
-        }
-
-        /// <summary>
-        /// Directly add a 'Invalid Argument' problem to the service 
-        /// </summary>
-        /// <remarks>
-        /// Wrapper around <see cref="AddProblem(string,int,string)"/> overloaded method
-        /// </remarks>
-        /// <param name="msg" example="A problem occour in the database">Problem message</param>
-        protected void AddInternalProblem(string msg)
-        {
-            AddProblem(TksProblem.ErrBadArgs, StatusCodes.Status500InternalServerError, msg);
-        }
-
-        /// <summary>
-        /// Directly add a 'Not found or Deleted' problem to the service. This kind of problem is used when
-        /// soft deleted entities are involved in the actions / operation 
-        /// </summary>
-        /// <remarks>
-        /// Wrapper around <see cref="AddProblem(string,int,string)"/> overloaded method
-        /// </remarks>
-        /// <param name="msg" example="A problem occour in the database">Problem message</param>
-        protected void AddNotFoundDeletedProblem(string msg)
-        {
-            AddProblem(TksProblem.ErrNotFoundOrDeleted, StatusCodes.Status404NotFound, msg);
-        }
+        
     }
 }
