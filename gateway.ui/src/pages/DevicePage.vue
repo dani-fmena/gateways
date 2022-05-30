@@ -1,29 +1,49 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <gateway-component :gateways="gateways"/>
+    Devices
+    {{$route.params.id}}
+
+    <div v-if="devices.length">
+     {{devices}}
+    </div>
+    <div v-else class="no-items absolute-center">
+      <q-icon name="check" size="100px" color="primary"/>
+      <div class="text-h5 text-primary text-center">
+        No devices
+    </div>
+  </div>
+
   </q-page>
 </template>
 
 <script lang="ts">
-import GatewayComponent from 'components/GatewayComponent.vue';
-import { defineComponent, onMounted, computed } from 'vue';
-import { useGatewayStore } from 'src/stores/gateway-store';
+import { Device } from 'src/components/models';
+import { defineComponent, onMounted, computed, Ref } from 'vue';
+import { useDeviceStore } from 'src/stores/device-store';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'DevicePage',
-  components: { GatewayComponent },
+  components: {  },
   setup () {
-    const gatewayStore = useGatewayStore();
+    const deviceStore = useDeviceStore();
+    const router = useRouter();
 
-    const getGateways = computed(() => {
-      return gatewayStore.getGateways
+    const getDevices = computed(() => {
+      return deviceStore.getDevices
     })
 
     onMounted(() => {
-      gatewayStore.fetchUsers()
+      deviceStore.fetchDevices(router.currentRoute.value.params.id)
     });
 
-    return { gateways:getGateways };
+    return { devices:getDevices };
   }
 });
 </script>
+
+<style lang="scss">
+  .no-items {
+    opacity: 0.5;
+  }
+</style>

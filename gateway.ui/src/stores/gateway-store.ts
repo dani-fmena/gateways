@@ -20,7 +20,7 @@ export const useGatewayStore = defineStore({
   },
 
   actions: {
-    async fetchUsers() {
+    async fetchGateways() {
       try {
         const data = await api.get('/v1/mngmt/AcGateway/rows')
         this.gateways = data.data
@@ -47,8 +47,6 @@ export const useGatewayStore = defineStore({
     },
 
     deleteGateway(index: number) {
-      // const index = this.findIndexById(id);
-      console.log("gw: ", this.gateways)
       if (index === -1) return;
       this.gateways.splice(index, 1);
     },

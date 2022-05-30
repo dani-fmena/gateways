@@ -1,7 +1,7 @@
 <template>
-  <q-list padding bordered separator class="rounded-borders" style="max-width: 800px; width: 600px;">
+  <q-list v-if="gateways.length" padding bordered separator class="rounded-borders" style="max-width: 800px; width: 600px;">
       <q-item-label header>Gateways</q-item-label>
-      <q-item clickable v-for="(gateway, index) in gateways" :key="gateway.id">
+      <q-item clickable v-for="(gateway, index) in gateways" :key="gateway.id" :to="`/gateway/${gateway.id}`">
         <q-item-section avatar top>
           <q-icon name="router" color="black" size="34px" />
         </q-item-section>
@@ -35,6 +35,12 @@
         </q-item-section>
       </q-item>
   </q-list>
+  <div v-else class="no-items absolute-center">
+      <q-icon name="check" size="100px" color="primary"/>
+      <div class="text-h5 text-primary text-center">
+        No gateways
+      </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -49,9 +55,9 @@ import { Gateway } from './models';
 import { useQuasar } from 'quasar';
 import { useGatewayStore } from 'src/stores/gateway-store';
 
-function useDisplayTodo(gateways: Ref<Gateway[]>) {
-  const todoCount = computed(() => gateways.value);
-  return { todoCount };
+function useDisplayGateways(gateways: Ref<Gateway[]>) {
+  const gws = computed(() => gateways.value);
+  return { gws };
 }
 
 export default defineComponent({
@@ -78,7 +84,13 @@ export default defineComponent({
             $q.notify('Gateway removed')
           })
     }
-    return { deleteGateway, ...useDisplayTodo(toRef(props, 'gateways')) };
+    return { deleteGateway, ...useDisplayGateways(toRef(props, 'gateways')) };
   },
 });
 </script>
+
+<style lang="scss">
+  .no-items {
+    opacity: 0.5;
+  }
+</style>

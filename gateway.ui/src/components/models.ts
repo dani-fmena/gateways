@@ -1,4 +1,3 @@
-
 export interface Gateway {
   id: number;
   name: string;
@@ -6,7 +5,6 @@ export interface Gateway {
   ipAddress: string;
   peripheralsAssociated: number;
 }
-
 
 export function generateFakeData(): Gateway {
   return {
@@ -16,4 +14,13 @@ export function generateFakeData(): Gateway {
     ipAddress: '127.0.0.1',
     peripheralsAssociated: Math.random(),
   };
+}
+
+export interface Device {
+  "id": number;
+  "uid": string;
+  "vendor":string;
+  "isOnline": boolean;
+  "gatewayId": number;
+  "created": string;
 }

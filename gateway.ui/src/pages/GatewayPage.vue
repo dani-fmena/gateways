@@ -20,7 +20,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      gatewayStore.fetchUsers()
+      gatewayStore.fetchGateways()
     });
 
     return { gateways:getGateways };
