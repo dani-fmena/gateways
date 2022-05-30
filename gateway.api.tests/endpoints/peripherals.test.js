@@ -309,7 +309,7 @@ describe(`Gateway [PUT] ${scopedUrl}`, () => {
         expect(response.body.title).toContain('or the gateway doesn\'t exist');
     });
     
-    test('chk update an existing gateway and response match the schema', async () => {
+    test('chk update an existing peripheral and response match the schema', async () => {
         
         const response = await request(scopedUrl)
             .put('')
