@@ -2,11 +2,26 @@
 
 The service must also offer an operation for displaying information about all stored gateways (and their devices) and an operation for displaying details for a single gateway. Finally, it must be possible to add and remove a device from a gateway.
 
+### Start the app using automated build
+```bash
+# in windows
+C:\Users\WORKSPACE\gateways\gateway.ui> deploy-ui.bat
+
+# in linux
+$ ./deploy-ui.sh
+```
+
+
 ## Install the dependencies
 ```bash
 yarn
 # or
 npm install
+```
+
+### Start the app
+```bash
+npm run deploy
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
@@ -15,13 +30,7 @@ quasar dev
 ```
 
 
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
+## Others command
 
 ### Format the files
 ```bash
