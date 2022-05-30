@@ -40,7 +40,7 @@ const gatewayInvalidFields = {
  */
 let nonExistingGateway = {
     "id": 15,
-    "name": "Chese",
+    "name": "Cheese",
     "serialNumber": "OOOOOOOO",
     "ipAddress": "20.40.200.10"
 }
@@ -196,13 +196,13 @@ describe(`Gateway [PUT] ${scopedUrl}`, () => {
 
     test('chk 400 with invalid params', async () => {
 
-        const reponse = await request(scopedUrl)
+        const response = await request(scopedUrl)
             .post('')
             .send(gatewayInvalidFields)
             .set('Content-Type', 'application/json')
 
-        expect(reponse.statusCode).toEqual(400);
-        expect(reponse.body.errors['IpAddress'][0]).toContain('don\'t seems to be valid');
+        expect(response.statusCode).toEqual(400);
+        expect(response.body.errors['IpAddress'][0]).toContain('don\'t seems to be valid');
     });
 
     test('chk 404', async () => {

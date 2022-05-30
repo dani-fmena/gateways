@@ -1,5 +1,7 @@
-﻿/**
- * Represent a gateway record DTO from the backend 
+﻿//#region ======= GATEWAY =============================================================
+
+/**
+ * Represent a gateway record DTO from the backend
  * @type {{additionalProperties: boolean, type: string, properties: {serialNumber: {type: string}, peripheralsAssociated: {type: string, minimum: number}, name: {type: string}, ipAddress: {minLength: number, pattern: string, type: string, maxLength: number}, id: {type: string, minimum: number}}, required: string[]}}
  */
 export const gatewayRowSchema = {
@@ -17,9 +19,9 @@ export const gatewayRowSchema = {
             maxLength: 15,
             pattern: "^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$"
         },
-        peripheralsAssociated: { 
+        peripheralsAssociated: {
             type: 'integer',
-            minimum: 0 
+            minimum: 0
         },
     },
     required: [ 'id', 'name', 'serialNumber', 'ipAddress', 'peripheralsAssociated' ],
@@ -49,3 +51,23 @@ export const gatewayPostOutSchema = {
     required: [ 'id', 'name', 'serialNumber', 'ipAddress'],
     additionalProperties: true
 }
+
+//#endregion ==========================================================================
+
+//#region ======= PERIPHERAL ==========================================================
+
+export const peripheralRowSchema = {
+    type: 'object',
+    properties: {
+        id: { type: 'integer', minimum: 1 },
+        vendor: { type: 'string', minLength: 3 },
+        uid: { type: 'string', minLength: 36, maxLength: 36 },
+        isOnline: { type: 'boolean' },
+        gatewayId: { type: 'integer', minimum: 1 },
+        created : { type: 'string', format: 'date-time' }
+    },
+    required: [ 'id', 'vendor', 'uid', 'isOnline', 'gatewayId', 'created' ],
+    additionalProperties: true
+}
+
+//#endregion ==========================================================================

@@ -65,7 +65,7 @@ namespace gateway.api.V1.Services.Validators
         /// <returns>False if the check fails</returns>
         public static async Task<bool> IsThereRoomForOneMorePeripheral(this SvcEndpointBase svc, Peripheral newPeripheral)
         {
-            var dbGateway = await svc.Dal.Gateways
+            var dbGateway = await svc.Dal.Gateways.AsNoTracking()
                 .Include(g => g.Peripherals)
                 .FirstOrDefaultAsync(g => g.Id == newPeripheral.GatewayId)
                 .ConfigureAwait(false);
