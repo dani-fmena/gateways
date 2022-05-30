@@ -1,0 +1,10 @@
+﻿{
+  "DEBUG": true,
+  "API_VERSION": 1,
+  "HOST": "127.0.0.1",
+  "PORT": "7000",
+  
+  "ASPNETCORE_ENVIRONMENT": "Development",
+  "ASPNETCORE_CONTENTROOT":	"D:\\Source\\.Net\\Gateways\\Gateways\\gateway.api",
+  "COMPLUS_ForceENC":	1
+}
