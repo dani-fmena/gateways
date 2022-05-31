@@ -4,7 +4,7 @@ If you have the the ```SqlLocalDb``` up running and you database name is **gatew
 from and admin admin terminal. This script tries to get missing dependencies (.NetCore and Node) and make the build for .Net Core 
 entire solution. 
 
-For running the script go to the roo project folder and then run 
+For running the script go to the root project folder and then run:
 
 _for Powershell terminal_
 ```batch
