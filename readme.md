@@ -21,7 +21,7 @@ _tech stack_
 ![](https://img.shields.io/badge/Tech-.NetCore3.1-informational?style=flat&logo=.NET&logoColor=512BD4)
 ![](https://img.shields.io/badge/Tech-Json-informational?style=flat&logo=JSON&logoColor=000000)
 ![](https://img.shields.io/badge/Tech-C%23-informational?style=flat&logo=CSharp&logoColor=239120)
-![](https://img.shields.io/badge/Tech-PLpgSQL-informational?style=flat&logo=SQLserver&logoColor=4169E1)
+![](https://img.shields.io/badge/Tech-SQLServer-informational?style=flat&logo=SQLserver&logoColor=4169E1)
 ![](https://img.shields.io/badge/Tech-Jest-informational?style=flat&logo=Jest&logoColor=C21325)
 
 ## 📑 Table of content
