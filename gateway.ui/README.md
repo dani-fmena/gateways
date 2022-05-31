@@ -2,7 +2,9 @@
 
 The ui must also offer an operation for displaying information about all stored gateways (and their devices) and an operation for displaying details for a single gateway. Finally, it must be possible to add and remove a device from a gateway.
 
-### Start the app using automated build
+## -- automated build --
+Before you must execute the `install.cmd` script located in root of main folder
+### Start the app using -- automated build --
 ```bash
 # in windows
 C:\Users\WORKSPACE\gateways\gateway.ui> deploy-ui.bat
@@ -11,6 +13,7 @@ C:\Users\WORKSPACE\gateways\gateway.ui> deploy-ui.bat
 $ ./deploy-ui.sh
 ```
 
+## -- manual build --
 
 ## Install the dependencies
 ```bash
@@ -19,7 +22,7 @@ yarn
 npm install
 ```
 
-### Start the app
+### Start the app (manually)
 ```bash
 npm run deploy
 ```

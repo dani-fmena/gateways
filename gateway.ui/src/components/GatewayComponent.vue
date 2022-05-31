@@ -1,5 +1,7 @@
 <template>
-  <q-list v-if="gateways.length" padding bordered separator class="rounded-borders" style="max-width: 800px; width: 600px;">
+
+  <div style="padding-top: 20px;">
+  <q-list v-if="gateways.length" padding bordered separator class="rounded-borders"  style="max-width: 800px; width: 660px;">
     <div class="row">
       <div class="col-4"><q-item-label header>Gateways</q-item-label></div>
       <div class="col-5">
@@ -16,10 +18,13 @@
         </q-item-section>
 
 
-        <q-item-section clickable top class="col-2 gt-sm">
-          <router-link  :to="`/gateway/${gateway.id}`">
-            <q-item-label class="q-mt-sm ellipsis">{{ gateway.name }}</q-item-label>
-          </router-link>
+        <q-item-section clickable top class="col-4 gt-sm">
+            <q-item-label class="q-mt-sm ellipsis">
+            <router-link  :to="`/gateway/${gateway.id}`">
+            {{ gateway.name }}
+            </router-link>
+            </q-item-label>
+
         </q-item-section>
 
 
@@ -99,19 +104,20 @@
                   filled
                   v-model="newGateway.serialNumber"
                   label="Serial number *"
-                  mask="XXXX-XXXX-XXXX-XXXX"
+                  mask="XXXXXXXXXXXXXXXX"
                   fill-mask="#"
-                  hint="A unique serial number (string), Mask: XXXX-XXXX-XXXX-XXXX"
+                  hint="A unique serial number (string), Mask: XXXXXXXXXXXXXXXX"
                   :rules="[ val => val && val.length > 0  || 'Please write the identifier']"
                 />
 
                 <q-input
                   filled
                   v-model="newGateway.name"
-                  label="Vendor *"
+                  label="Name *"
                   lazy-rules
+                  hint="human-readable name"
                   :rules="[
-                    val => val !== null && val !== '' || 'Please type a vendor'
+                    val => val !== null && val !== '' || 'Please type a name'
                   ]"
                 />
 
@@ -133,6 +139,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+  </div>
 </template>
 
 <script lang="ts">
