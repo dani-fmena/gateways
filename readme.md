@@ -16,7 +16,7 @@ This repo contains the whole Gateway ecosystem. It was build on top of the follo
 - **gateway.api.ui** Endpoints unit-test project based on Jet and Node [_Node App_]
 
 
-_technology stack_
+_tech stack_
 
 ![](https://img.shields.io/badge/Tech-.NetCore3.1-informational?style=flat&logo=.NET&logoColor=512BD4)
 ![](https://img.shields.io/badge/Tech-Json-informational?style=flat&logo=JSON&logoColor=000000)
