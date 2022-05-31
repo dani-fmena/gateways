@@ -21,7 +21,7 @@ namespace gateway.factory
             // creating the DbContext option builder instance
             var optionsBuilder = new DbContextOptionsBuilder<ADbContext>();
             optionsBuilder.UseSqlServer(
-                new SqlConnection(_conf.GetConnectionString("Gateway")),
+                new SqlConnection(_conf.GetConnectionString("Local")),
                 b => b.MigrationsAssembly("gateway.factory")
             );
 

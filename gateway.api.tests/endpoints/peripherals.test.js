@@ -1,6 +1,6 @@
 ﻿import request from "supertest";
 import { dateTimeRegex } from "../lib/rexpr";
-import { peripheralRowSchema, gatewayRowSchema } from "../lib/schemas";
+import { peripheralRowSchema } from "../lib/schemas";
 
 //#region ======= VARS DECLARATION ====================================================
 
@@ -274,7 +274,7 @@ describe(`PERIPHERAL [POST] ${scopedUrl}`, () => {
 /**
  * Update an existing PERIPHERAL
  */
-describe(`Gateway [PUT] ${scopedUrl}`, () => {
+describe(`PERIPHERAL [PUT] ${scopedUrl}`, () => {
 
     test('chk 400 with invalid params', async () => {
         const response = await request(scopedUrl)

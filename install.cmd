@@ -77,7 +77,7 @@ IF NOT x%NODE_VER:v16=%==x%NODE_VER% (
     SET NODE_LTS=true
 )
 
-REM so nothe isn't here we need to bring it
+@REM so nothe isn't here we need to bring it
 IF %NODE_LTS% NEQ true (	
 	IF NOT EXIST tmp/ ( MKDIR tmp ) 
 	IF NOT EXIST tmp/%NODE_EXEC% (
@@ -96,7 +96,7 @@ IF %NODE_LTS% NEQ true (
     echo.
 )
 
-REM installing quaser
+@REM installing quaser
 ECHO [94m[+] Installing Quasar [0m
 CD ../..
 CALL npm i -g @quasar/cli
@@ -104,7 +104,7 @@ CD %SETUP_DIR%
 echo [92m[+] Quasar was Installed [0m
 echo.
 
-REM building solution
+@REM building solution
 ECHO [94m[+] Building .NetCore Solution ... finger crossed =) [0m
 dotnet build Gateways.sln --no-incremental
 
@@ -118,7 +118,7 @@ IF %ERRORLEVEL% NEQ 0 (
     echo.
 )
 
-REM instaling UI deps
+@REM instaling UI deps
 ECHO [94m[+] Installing UI deps [0m
 CD %SETUP_DIR%/gateway.ui
 CALL npm i
@@ -126,7 +126,7 @@ echo [92m[+] UI deps was installed [0m
 echo.
 CD %SETUP_DIR%
 
-REM instaling TESTs deps
+@REM instaling TESTs deps
 ECHO [94m[+] Installing TEST deps [0m
 CD %SETUP_DIR%/gateway.api.tests
 CALL npm i
@@ -134,7 +134,7 @@ echo [92m[+] TEST deps was installed [0m
 echo.
 CD %SETUP_DIR%/
 
-REM Working in the database
+@REM Working in the database
 ECHO [94m[+] Appliying database schema and populate initial data [0m
 CD %SETUP_DIR%/gateway.factory
 dotnet ef migrations add Initial
@@ -146,7 +146,7 @@ echo.
 
 
 echo.
-echo [92m== All the build atomation proceess were DONE, you can run the system ==[0m
+echo [92m== All the build automation process were DONE, you can run the system ==[0m
 
 :exiting
 
