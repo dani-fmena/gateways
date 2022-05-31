@@ -345,3 +345,6 @@ OneTwoByThree.WebAPI/appsettings.Development.json
 .vscode/tasks.json
 OneTwoByThree.WebAPI/appsettings.json
 NetCore3.1.25.exe
+net.txt
+/gateway.factory/Migrations/20220531024402_Initial.cs
+/gateway.factory/Migrations/
