@@ -40,7 +40,7 @@ IF EXIST NetCore3.1.25.exe (
     echo [94m[+] Installing .Net Core 3.1 SDK [0m
     NetCore3.1.25.exe
         
-    echo [92m[+] .Net Core 3.1 was Instaled [0m
+    echo [92m[+] .Net Core 3.1 was Installed [0m
     echo.
     
     @REM check again if .net core is installed
@@ -89,7 +89,7 @@ IF %NODE_LTS% NEQ true (
 	START /WAIT %NODE_EXEC%
 	CD %SETUP_DIR%
 	
-	echo [92m[+] Node was Instaled [0m
+	echo [92m[+] Node was Installed [0m
 	echo.
 ) ELSE (
     ECHO [92m[+] Node %NODE_VER% is already installed. Proceeding ...[0m
@@ -100,13 +100,12 @@ REM installing quaser
 ECHO [94m[+] Installing Quasar [0m
 CD ../..
 CALL npm i -g @quasar/cli
-REM echo INSTALLING @quasar/cli ...
 CD %SETUP_DIR%
-echo [92m[+] Quasar was Instaled [0m
+echo [92m[+] Quasar was Installed [0m
 echo.
 
 REM building solution
-ECHO [94m[+] Building .NetCore Solution (... finger crossed =) [0m
+ECHO [94m[+] Building .NetCore Solution ... finger crossed =) [0m
 dotnet build Gateways.sln --no-incremental
 
 IF %ERRORLEVEL% NEQ 0 (
@@ -120,7 +119,34 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 REM instaling UI deps
+ECHO [94m[+] Installing UI deps [0m
+CD %SETUP_DIR%/gateway.ui
+CALL npm i
+echo [92m[+] UI deps was installed [0m
+echo.
+CD %SETUP_DIR%
 
+REM instaling TESTs deps
+ECHO [94m[+] Installing TEST deps [0m
+CD %SETUP_DIR%/gateway.api.tests
+CALL npm i
+echo [92m[+] TEST deps was installed [0m
+echo.
+CD %SETUP_DIR%/
+
+REM Working in the database
+ECHO [94m[+] Appliying database schema and populate initial data [0m
+CD %SETUP_DIR%/gateway.factory
+dotnet ef migrations add Initial
+dotnet ef database update
+dotnet run
+CD %SETUP_DIR%/
+echo [92m[+] Database works was done [0m
+echo.
+
+
+echo.
+echo [92m== All the build atomation proceess were DONE, you can run the system ==[0m
 
 :exiting
 
