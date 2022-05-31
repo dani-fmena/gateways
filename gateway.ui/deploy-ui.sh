@@ -10,8 +10,8 @@ deploy_app() {
     echo "NPM VERSION:  "
     npm -v
 
-    echo "installing dependencies"
-    npm i
+#    echo "installing dependencies"
+#    npm i
 
     echo "deploy"
     npm run deploy
