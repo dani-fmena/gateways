@@ -11,6 +11,6 @@ IF %NODE_VER% NEQ v16.15.0 (
 	echo node v16.15.0 is not installed ...
 ) ELSE (
 	echo Node %NODE_VER% is already installed. Proceeding ...
+	call npm i
+	call npm run deploy
 )
-
-call npm run deploy
