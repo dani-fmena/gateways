@@ -13,7 +13,7 @@ This repo contains the whole Gateway ecosystem. It was build on top of the follo
 
 - **gateway.api.tests** Automated test for all the exposed endpoints [_Node App_]
   
-- **gateway.api.ui** Endpoints unit-test project powered by Jest and Node [_Node App_]
+- **gateway.api.ui** Web user interface for the solution [_Node App_]
 
 
 _tech stack_
