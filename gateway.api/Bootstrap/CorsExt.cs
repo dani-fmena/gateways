@@ -26,7 +26,7 @@ namespace gateway.api.Bootstrap
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowAnyOrigin()
-                        .WithOrigins("http://localhost:8080");
+                        .WithOrigins("http://localhost:9000");
                 });
             });
         }
